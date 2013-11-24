@@ -1,0 +1,17 @@
+div.jsterm {
+    border: 3px solid black;
+    display: inline-block;
+}
+.jsterm span {
+    background: black;
+    color: #ccc;
+    white-space: pre;
+    font-family: courier new;
+    font-weight: bold;
+}
+.jsterm-cursor {
+    background: #ccc;
+    display: none;
+    position: absolute;
+}
+

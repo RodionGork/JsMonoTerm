@@ -1,0 +1,29 @@
+<html>
+<head>
+<script src="./jquery.js"></script>
+<script src="./jsmonoterm.js"></script>
+<link rel="stylesheet" type="text/css" href="./jsmonoterm.css"/>
+</head>
+<body>
+
+<div style="display:inline-block;border: 5px solid #555; border-radius: 5px;">
+    <div id="terminal"></div>
+</div>
+
+<script>
+var term = new JsMonoTerm({selector: "#terminal", w: 80, h: 25});
+
+for (var i = 0; i < 10; i++) {
+    for (var j = 0; j <= i; j++) {
+        term.print('**');
+    }
+    term.println('');
+}
+
+term.println('');
+term.println('I am javascript monochrome terminal, try type something...');
+</script>
+
+</body>
+</html>
+
