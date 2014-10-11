@@ -154,6 +154,9 @@ JsMonoTerm.prototype.key = function(c) {
         this.cx--;
         this.print(' ');
         this.cx--;
+        if (this.gets && this.getsBuffer.length > 0) {
+            this.getsBuffer = this.getsBuffer.substring(0, this.getsBuffer.length - 1);
+        }
     }
     this.cursorPos();
     if (c >= 32 && this.getc) {
