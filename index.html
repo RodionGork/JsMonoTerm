@@ -20,8 +20,18 @@ for (var i = 0; i < 10; i++) {
     term.println('');
 }
 
-term.println('');
-term.println('I am javascript monochrome terminal, try type something...');
+term.println();
+term.printf('Test %d is %X and "%4x" and %05d', 1961, 0xBEDA, 113, 28);
+term.println();
+term.println('I am a javascript monochrome terminal. What is your name?');
+
+term.gets = gets;
+
+function gets(s) {
+    term.println();
+    term.println('Hello, ' + s + '!');
+    term.println('Now type anything you want...');
+}
 </script>
 
 </body>
