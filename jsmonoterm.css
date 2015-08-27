@@ -8,10 +8,10 @@ div.jsterm {
     white-space: pre;
     font-family: courier new;
     font-weight: bold;
+    display: block;
 }
 .jsterm-cursor {
     background: #ccc;
     display: none;
     position: absolute;
 }
-

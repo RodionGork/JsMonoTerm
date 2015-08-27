@@ -64,7 +64,7 @@ JsMonoTerm.prototype.print = function(s) {
 }
 
 JsMonoTerm.prototype.addLine = function() {
-    this.div.append($("<span>" + this.emptyLine + "</span><br/>"));
+    this.div.append($("<span>" + this.emptyLine + "</span>"));
 }
 
 JsMonoTerm.prototype.delLine = function(n) {
@@ -72,7 +72,6 @@ JsMonoTerm.prototype.delLine = function(n) {
         n = 0;
     }
     var span = $(this.div.find("span").get(n));
-    span.next().remove();
     span.remove();
     this.addLine();
 }
