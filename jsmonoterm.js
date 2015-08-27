@@ -43,6 +43,7 @@ function JsMonoTerm(obj) {
     
     this.getc = null;
     this.gets = null;
+    this.getsBuffer = '';
 }
 
 JsMonoTerm.prototype.move = function(x, y) {
@@ -51,6 +52,9 @@ JsMonoTerm.prototype.move = function(x, y) {
 }
 
 JsMonoTerm.prototype.print = function(s) {
+    if (typeof(s) == 'undefined' || s == null) {
+        return;
+    }
     var len = s.length;
     var span = this.div.find("span").get(this.cy);
     var text = $(span).text();
@@ -90,22 +94,81 @@ JsMonoTerm.prototype.println = function(s) {
     }
 }
 
+JsMonoTerm.prototype.printf = function() {
+    if (arguments.length < 1) {
+        return;
+    }
+    var s = arguments[0];
+    var res = '';
+    var i = 0;
+    var p = 1;
+    while (i < s.length) {
+        var next = s.indexOf('%', i);
+        if (next < 0) {
+            res += s.substring(i);
+            break;
+        }
+        res += s.substring(i, next);
+        next += 1;
+        if (s.charAt(next) == '%') {
+            res += '%';
+            i = next + 1;
+            continue;
+        }
+        for (var end = next; s.charCodeAt(end) < 65; end++) {
+        }
+        var suffix = s.charAt(end);
+        i = end + 1;
+        end = end > next ? s.substring(next, end + 1) : null;
+        var subst = arguments[p++];
+        if (suffix == 'd') {
+            subst = '' + subst;
+        } else if (suffix == 'x') {
+            subst = subst.toString(16).toLowerCase();
+        } else if (suffix == 'X') {
+            subst = subst.toString(16).toUpperCase();
+        }
+        if (end != null) {
+            var pad = end.charAt(0) == '0' ? '0' : ' ';
+            end = parseInt(end);
+            while (subst.length < end) {
+                subst = pad + subst;
+            }
+        }
+        res += subst;
+    }
+    this.print(res);
+}
+
 JsMonoTerm.prototype.key = function(c) {
     c = c.charCode;
     if (c >= 32) {
-        this.print(String.fromCharCode(c));
+        var ch = String.fromCharCode(c);
+        this.print(ch);
+        if (this.gets && this.getsBuffer.length < 256) {
+            this.getsBuffer += ch;
+        }
     } else if (c == 13) {
         this.println('');
     } else if (c == 8 && this.cx > 0) {
         this.cx--;
         this.print(' ');
         this.cx--;
+        if (this.gets && this.getsBuffer.length > 0) {
+            this.getsBuffer = this.getsBuffer.substring(0, this.getsBuffer.length - 1);
+        }
     }
     this.cursorPos();
     if (c >= 32 && this.getc) {
         var f = this.getc;
         this.getc = null;
         f(String.fromCharCode(c));
+    }
+    if (c == 13 && this.gets) {
+        var f = this.gets;
+        this.gets = null;
+        f(this.getsBuffer);
+        this.getsBuffer = '';
     }
 }
 
