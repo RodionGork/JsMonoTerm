@@ -14,4 +14,4 @@ Supported methods:
 Method "getc" if not null is called after user types a character (and is
 reset to null).
 
-Example "guesser.html" is provided. [See demo page](http://rodiongork.github.io/JsMonoTerm/)
+Example of number guessing game is provided in `index.html`. [See demo page](http://rodiongork.github.io/JsMonoTerm/)
